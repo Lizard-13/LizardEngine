@@ -2,4 +2,4 @@
 # -*- coding: utf-8 -*-
 
 
-print("Versión 1.0")
+print("Versión 2.0")
