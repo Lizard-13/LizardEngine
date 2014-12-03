@@ -3,7 +3,7 @@
 
 from Ejemplos import *
 
-print("Versión 1.2")
+print("Versión 1.5")
 
 c = EjemploBasico()
 class ControlEjemplos(object):
