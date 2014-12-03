@@ -1,7 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-import LizardEngine as le
+import LE.LizardEngine as le
 
 
 class EjemploBasico(object):

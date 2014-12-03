@@ -5,7 +5,7 @@ from Ejemplos import *
 
 print("Versión 1.2")
 
-
+c = EjemploBasico()
 class ControlEjemplos(object):
     """Documentación de la clase"""
     def __init__(self):

@@ -2,9 +2,9 @@
 # -*- coding: utf-8 -*-
 
 #-------------------------------------------------------------------------------
-# Nombre:        LizardEngine
+# Nombre:        LE
 #
-# Propósito:     LizardEngine planea ser en un futuro un motor
+# Propósito:     LE planea ser en un futuro un motor
 #                  	básico para crear videojuegos en 2D, escrito 
 #                  	en Python y utilizando las librerias Pygame y
 #					PyOpenGL.
