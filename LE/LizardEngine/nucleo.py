@@ -13,7 +13,7 @@ from cargador import Cargador
 
 
 class Nucleo():
-	def __init__(self, tam=(640, 480), titulo="Juego", fps=60):
+	def __init__(self, tam=(640, 480), fps=60):
 		"""Inicializador del nucleo, sin escena, sólo un reloj,
 		un mapa de eventos, y una ventana básica.
 		tam = dimensiones de la ventana inicial (inútil)
@@ -27,6 +27,7 @@ class Nucleo():
 		# Ventana inicial e inicio de OpenGL
 		print("Iniciando contexto OpenGL...")
 		pygame.display.set_mode(tam, DOUBLEBUF | OPENGL)
+		pygame.display.set_caption("LizardEngine - Núcleo")
 		self.gl_ini(*tam)
 		# Reloj principal (delta-tiempo)
 		self.reloj = pygame.time.Clock()
