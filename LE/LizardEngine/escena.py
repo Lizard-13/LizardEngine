@@ -1,6 +1,6 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-
+# creado: 8/07/2014 (dd/mm/aa)
 
 #Globales
 import pygame
@@ -79,6 +79,22 @@ class Escena():
 	def ordenar_capas(self):
 		"""Ordena las capas por su valor Z."""
 		self.capas.sort(key=lambda capa: capa.z)
+	
+	def a_capa_superior(self, capa):
+		"""Mueve la capa sobre todas las demás.
+		capa = capa a mover"""
+		# El mayor valor Z entre todas las capas (excepto ésta) +1
+		capa.z = max(cp.z for cp in self.capas if cp != capa) + 1
+		# Luego de cambiar su posición, ordenarlas
+		self.ordenar_capas()
+
+	def a_capa_inferior(self, capa):
+		"""Mueve la capa debajo de todas las demás.
+		capa = capa a mover"""
+		# El menor valor Z entre todas las capas (excepto ésta) -1
+		capa.z = min(cp.z for cp in self.capas if cp != capa)  - 1
+		# Luego de cambiar su posición, ordenarlas
+		self.ordenar_capas()
 
 	def ordenar_objetos(self, capa=None):
 		"""Llama a cada capa a ordenar los objetos
@@ -110,8 +126,7 @@ class Escena():
 		# Si se agrega un tipo de objeto mayor al tamaño de la lista:
 		if len(self.objetos) <= objeto.tipo:
 			# Se agregan listas de tipos restantes vacias
-			for i in range(objeto.tipo - len(self.objetos) + 1):
-				self.objetos.append([])
+			self.objetos.append([] * (objeto.tipo - len(self.objetos) + 1))
 		# Agregar el objeto en su lista de tipo
 		self.objetos[objeto.tipo].append(objeto)
 		# Si no se explicita una capa, se usa la capa base
@@ -160,6 +175,8 @@ class Escena():
 		glClearColor(r,g,b,1.0)
 	
 	def destruir(self):
+		# Limpiar las texturas
+		glDeleteTextures(self.texturas)
 		# Elimina referencias para poder eliminarlos
 		self.nucleo = None
 		self.eventos = None
@@ -174,8 +191,6 @@ class Escena():
 		# Al no tener referncias, son eliminados al ser olvidados por la escena
 		self.objetos = None
 		self.capas = None
-		# Limpiar las texturas
-		glDeleteTextures(self.texturas)
 
 	def __del__(self):
 		print("Escena eliminada")

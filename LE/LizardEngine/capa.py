@@ -3,7 +3,6 @@
 # creado: 8/07/2014 (dd/mm/aa)
 
 # Globales
-import pygame
 from OpenGL.GL import *
 
 
