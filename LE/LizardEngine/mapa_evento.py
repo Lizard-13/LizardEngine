@@ -1,7 +1,15 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+# creado: 5/08/2014 (dd/mm/aa)
+
 #Globales
 import pygame
 from pygame.locals import *
 
+
+# Hay que reorganizar toda la clase, la forma en la que funciona no ofrece
+# ninguna mejora de rendimiento, itera sobre todos los eventos de Pygame,
+# cuando sólo tiene que tener en cuenta los eventos definidos.
 
 class MapaEvento():
     def __init__(self):

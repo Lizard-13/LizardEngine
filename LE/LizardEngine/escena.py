@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 # creado: 8/07/2014 (dd/mm/aa)
 
+
 #Globales
 import pygame
 from pygame.locals import *
@@ -191,7 +192,7 @@ class Escena():
 		self.objetos = None
 		self.capas = None
 		# Limpiar las texturas
-		glDeleteTextures([self.texturas])
+		glDeleteTextures(self.texturas)
 
 	def __del__(self):
 		print("Escena eliminada")

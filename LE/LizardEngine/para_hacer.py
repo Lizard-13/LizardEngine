@@ -4,16 +4,16 @@
 #   Generales:
 # 	    (**) Reimplementar la renderizacion, a través de OpenGL
 #              (faltan detalles como mejorar el objeto shader, fbo, e
-#               implementar transformaciones correctas de la cámara y sus
-#               usos de shaders y fbos, simplificar uso de éstos)
+#               implementar transformaciones correctas de la cámara y su
+#               uso de shaders y fbos, simplificar uso de éstos)
 #       (*)  Incluir ejemplos
 #              (la arquitectura ya está terminada, mejorar objetos antes de
 #               implementar sus ejemplos correspondientes)
 #       ()   Implementar física
 #              (tal vez lo más díficil, utilizar PyBox2D)
 # 	Ojetos Imagen:
-# 		(**) Calcular la renderizacion, con diferentes camaras y tamaños
-#              (hay que organizar mejor las transformaciones de la cámara)
+# 		(**) Calcular la renderizacion, con diferentes cámaras y tamaños
+#              (organizar mejor las transformaciones de la cámara - escala)
 # 		(**) Usar shaders
 #              (crear métodos para nunca tener que importar OpenGL.GL.shaders)
 # 		(***)ObjetoAnimado y ObjetoImagenAvanzado herederos de la misma clase
@@ -29,12 +29,12 @@
 #              (obligar creación, crear métodos para nunca tener que importar
 #               OpenGL.GL.framebufferobjects, actualizar fbos a varias texturas)
 # 	Caja de Recursos:
-# 		()   Ojeto separado de la escena
+# 		()   Objeto separado de la escena
 #              (no iniciado)
 # 		(**) Implementar texturas
 #              (cargar nuevas texturas es relativamente fácil)
 # 		()   Implementar sonidos
-#              (no iniciado)
+#              (no iniciado, PyOpenAL llevado a 2D o Pygame)
 #   Ideas para nuevos objetos:
 #       ()   Objeto Mosaico
 #              (posición de textura variable, podria heredar de ObjetoImagen,

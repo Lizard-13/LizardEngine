@@ -1,6 +1,6 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-# creado: 3/12/2014 (dd/mm/aa)
+# creado: 4/12/2014 (dd/mm/aa)
 
 import pygame
 import os

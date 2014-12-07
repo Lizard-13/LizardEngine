@@ -1,5 +1,6 @@
 #!/usr/bin/python
-# -* -coding: utf-8 -*-
+# -*- coding: utf-8 -*-
+# creado: 8/07/2014 (dd/mm/aa)
 
 # Globales
 import pygame

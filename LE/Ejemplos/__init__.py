@@ -1,6 +1,6 @@
 #!/usr/local/bin/python
 # encoding: utf-8
-# creado: 4/12/2014 (dd/mm/aa)
+# creado: 3/12/2014 (dd/mm/aa)
 
 # Importar el ejemplo base
 from __ejemplo__ import Ejemplo

@@ -1,5 +1,6 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+# creado: 8/07/2014 (dd/mm/aa)
 
 # Globales
 import pygame
@@ -44,16 +45,6 @@ class Capa():
 				objeto.renderizar(camara)
 			# Renderizar framebuffers a la pantalla
 			camara.finalizar_renderizado()
-
-	def a_capa_superior(self):
-		"""Mueve la capa sobre todas las demás."""
-		# El mayor valor Z entre todas las capas (excepto ésta) +1
-		self.z = max(capa.z for capa in capa_excluida if capa != self) + 1
-
-	def a_capa_inferior(self):
-		"""Mueve la capa debajo de todas las demás."""
-		# El menor valor Z entre todas las capas (excepto ésta) -1
-		self.z = min(capa.z for capa in capa_excluida if capa != self) - 1
 
 	def agregar_camara(self, camara):
 		"""Agrega una cámara a la capa.

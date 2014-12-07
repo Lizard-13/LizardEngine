@@ -1,3 +1,7 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+# creado: 8/07/2014 (dd/mm/aa)
+
 
 class Vec2():
 	def __init__(self, lista):

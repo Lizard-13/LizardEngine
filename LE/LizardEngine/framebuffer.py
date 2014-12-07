@@ -1,5 +1,6 @@
-#/usr/bin/python
+#!/usr/bin/python
 # -*- coding: utf-8 -*-
+# creado: 17/11/2014 (dd/mm/aa)
 
 #Globales
 from OpenGL.GL import *

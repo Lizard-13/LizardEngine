@@ -1,3 +1,8 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+# creado: 22/07/2014 (dd/mm/aa)
+
+
 #Globales
 import json
 from OpenGL.GL import *
@@ -5,6 +10,7 @@ from copy import copy
 
 #Locales
 from vec2 import Vec2
+
 
 class Cargador():
 	def __init__(self):

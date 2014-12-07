@@ -1,4 +1,7 @@
-#!/usr/bin/env python
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+# creado: 23/07/2014 (dd/mm/aa)
+
 
 # example base.py
 
@@ -7,6 +10,7 @@ pygtk.require('2.0')
 import gtk
 
 class Aplicacion():
+	"""Ejemplo de aplicación con PyGTK, para familiarizar la librería."""
 	def __init__(self):
 		self.ventana = gtk.Window(gtk.WINDOW_TOPLEVEL)
 		self.ventana.connect("delete_event", self.eliminar_evento)	#Al hacer click en "cerrar ventana"

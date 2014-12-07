@@ -3,7 +3,7 @@
 # creado: 3/12/2014 (dd/mm/aa)
 
 import pygame
-from Ejemplos import Ejemplo, recursos_ejemplos#clases_ejemplos
+from Ejemplos import Ejemplo, recursos_ejemplos
 from sys import exit as sys_exit
 
 
@@ -34,7 +34,8 @@ for recurso in recursos_ejemplos:
                                  (pos_x, pos_y), (ancho, alto)))
     # Se actualizan los índices
     x += 1
-    if x >= n:      x = 0; y += 1
+    if x >= n:
+        x = 0; y += 1
     
     
 def iniciar(tam):

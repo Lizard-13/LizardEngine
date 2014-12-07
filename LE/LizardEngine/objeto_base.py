@@ -1,8 +1,8 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+# creado: 10/07/2014 (dd/mm/aa)
 
 # Globales
-import pygame
 from OpenGL.GL import *
 from OpenGL.GL.shaders import *
 from math import sin, cos, atan2, radians
