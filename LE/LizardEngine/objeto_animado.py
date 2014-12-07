@@ -2,7 +2,6 @@
 # -*- coding: utf-8 -*-
 # creado: 10/07/2014 (dd/mm/aa)
 
-
 #Globales
 from OpenGL.GL import *
 
