@@ -1,6 +1,5 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-# creado: 8/07/2014 (dd/mm/aa)
 
 
 #Globales
@@ -80,22 +79,6 @@ class Escena():
 	def ordenar_capas(self):
 		"""Ordena las capas por su valor Z."""
 		self.capas.sort(key=lambda capa: capa.z)
-	
-	def a_capa_superior(self, capa):
-		"""Mueve la capa sobre todas las demás.
-		capa = capa a mover"""
-		# El mayor valor Z entre todas las capas (excepto ésta) +1
-		capa.z = max(cp.z for cp in self.capas if cp != capa) + 1
-		# Luego de cambiar su posición, ordenarlas
-		self.ordenar_capas()
-
-	def a_capa_inferior(self, capa):
-		"""Mueve la capa debajo de todas las demás.
-		capa = capa a mover"""
-		# El menor valor Z entre todas las capas (excepto ésta) -1
-		capa.z = min(cp.z for cp in self.capas if cp != capa)  - 1
-		# Luego de cambiar su posición, ordenarlas
-		self.ordenar_capas()
 
 	def ordenar_objetos(self, capa=None):
 		"""Llama a cada capa a ordenar los objetos
