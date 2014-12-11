@@ -8,6 +8,7 @@ from pygame.locals import QUIT, K_ESCAPE, K_SPACE
 
 # Carpeta relativa de recursos, archivos en formato recursos%"archivo"
 recursos = "Recursos/EjBasico/%s"
+recursos_com = "Recursos/Comunes/%s"
 
 # Una escena heredada para definir su comportamiento
 class EscenaBasica(le.Escena):
@@ -15,7 +16,7 @@ class EscenaBasica(le.Escena):
     def logica_ini(self):
         """Lógica inicial de la escena."""
         # Agregamos una textura
-        self.agregar_textura(recursos%"Iori_0.png")
+        self.agregar_textura(recursos_com%"Iori_0.png")
         # Creamos el objeto con dicha textura
         obj = le.ObjetoImagenAvanzado(self.texturas[0], [100,50])
         # Le definimos un grupo
