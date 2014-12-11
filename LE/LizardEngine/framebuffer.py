@@ -4,7 +4,6 @@
 
 #Globales
 from OpenGL.GL import *
-from OpenGL.GL.shaders import *
 from OpenGL.GL.framebufferobjects import *
 
 
@@ -42,6 +41,14 @@ class Framebuffer(object):
         glBindFramebuffer(GL_FRAMEBUFFER, 0)
         glBindRenderbuffer(GL_RENDERBUFFER, 0)
 
+    def usar(self):
+        """Utiliza el framebuffer."""
+        glBindFramebuffer(GL_FRAMEBUFFER, self.framebuffer)
+        
+    def no_usar(self):
+        """Dejar de utilizar el framebuffer."""
+        glBindFramebuffer(GL_FRAMEBUFFER, 0)
+        
     def __del__(self):
         """Elimina los recursos usados por el framebuffer."""
         print("FBO eliminado")
