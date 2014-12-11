@@ -39,7 +39,7 @@ class Camara(object):
     def iniciar_renderizado(self):
         """Acciones posteriores al renderizado de objetos."""
         self.fbos[0].usar()
-        glClearColor(0., 1., 0., 0.)#0.) para fondo transparente
+        glClearColor(0., 0., 0., 0.)#0.) para fondo transparente
         glClear(GL_COLOR_BUFFER_BIT) #| GL_DEPTH_BUFFER_BIT)
         # Transformación de la cámara
         glLoadIdentity()
