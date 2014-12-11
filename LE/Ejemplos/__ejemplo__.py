@@ -30,8 +30,8 @@ class Ejemplo(object):
     
     def ejecutar(self):
         """Inicia el ejemplo a través de un subproceso, ejecutando el archivo
-        mismo del ejemplo, bajo la condición __name__=='__main__'."""
-        subprocess.Popen(["python", self.archivo])
+        mismo del ejemplo."""
+        subprocess.Popen(["python", self.archivo], cwd=self.dir)
     
     def colision_punto(self, punto):
         """Verifica si el punto dado está sobre la imagen del ejemplo.
