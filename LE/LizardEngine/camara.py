@@ -5,8 +5,6 @@
 # Globales
 import pygame
 from OpenGL.GL import *
-from OpenGL.GL.shaders import *
-from OpenGL.GL.framebufferobjects import *
 
 # Locales
 from .vec2 import Vec2
@@ -27,7 +25,7 @@ class Camara(object):
         self.angulo = 0.
         self.capa = None
         # Programa
-        self.programa = None
+        self.shader = None
         # Tamaño de toda la ventana, para crear fácilmente los framebuffers
         pantalla_inf = pygame.display.Info()
         self.ventana = (pantalla_inf.current_w, pantalla_inf.current_h)
@@ -40,8 +38,8 @@ class Camara(object):
 
     def iniciar_renderizado(self):
         """Acciones posteriores al renderizado de objetos."""
-        glBindFramebuffer(GL_FRAMEBUFFER, self.fbos[0].framebuffer)
-        glClearColor(0., 0., 0., 0.)#0.) para fondo transparente
+        self.fbos[0].usar()
+        glClearColor(0., 1., 0., 0.)#0.) para fondo transparente
         glClear(GL_COLOR_BUFFER_BIT) #| GL_DEPTH_BUFFER_BIT)
         # Transformación de la cámara
         glLoadIdentity()
@@ -49,28 +47,25 @@ class Camara(object):
         glTranslatef(-self.pos.x, -self.pos.y, 0.)
         glRotatef(-self.angulo*3.14159/180., 0., 0., 1.)
 
-    def usar_programa(self, programa):
+    def usar_programa(self, shader):
         """Al iniciar el programa, establecer la textura
         programa = programa a utilizar."""
-        self.programa = programa
-        glUseProgram(self.programa)
-        textura_l = glGetUniformLocation(self.programa, "textura")
-        glUniform1i(textura_l, 0)
-        glUseProgram(0)
+        self.shader = shader
+        self.shader.usar()
+        shader.parametrizar_textura(shader.ubicacion("textura"), 0)
+        self.shader.no_usar()
 
     def finalizar_renderizado(self):
         """Renderiza la textura final, obtenida en el framebuffer."""
         # Desactivar el framebuffer
-        glBindFramebuffer(GL_FRAMEBUFFER, 0)
+        self.fbos[0].no_usar()
         # Activar la textura
         glActiveTexture(GL_TEXTURE0)
         glBindTexture(GL_TEXTURE_2D, self.fbos[0].textura)
         # Renderiza la imagen principal
-        if self.programa:
-            glUseProgram(self.programa)
+        self.shader.usar() if self.shader else None
         self.renderizar_cuad(0., 0., self.tam[0], self.tam[1])
-        if self.programa:
-            glUseProgram(0)
+        self.shader.no_usar if self.shader else None
         # Pequeño render sin usar el programa (textura del framebuffer)
         #self.renderizar_cuad(0., 0., 160., 120.)
 
