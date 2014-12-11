@@ -11,6 +11,7 @@ from OpenGL.GL import (glClearColor, glActiveTexture, glBindTexture,
 
 #Carpeta relativa de recursos, archivos en formato recursos%"archivo"
 recursos = "Recursos/EjCamara/%s"
+recursos_com = "Recursos/Comunes/%s"
 
 # Cámara heredada para definir comportamiento
 class CamaraBlur(le.Camara):
@@ -85,7 +86,7 @@ class EscenaBasica(le.Escena):
     """Escena con lógica."""
     def logica_ini(self):
         # Agregamos una textura
-        self.agregar_textura(recursos%"Iori_0.png")
+        self.agregar_textura(recursos_com%"Iori_0.png")
         # Creamos el objeto con dicha textura
         obj = le.ObjetoImagenAvanzado(self.texturas[0], [100,50])
         # Le definimos un grupo
