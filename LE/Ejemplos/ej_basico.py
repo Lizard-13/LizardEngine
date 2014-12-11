@@ -6,9 +6,28 @@ import LE.LizardEngine as le
 from pygame.locals import QUIT, K_ESCAPE, K_SPACE
 
 
+# Carpeta relativa de recursos, archivos en formato recursos%"archivo"
+recursos = "Recursos/EjBasico/%s"
+
 # Una escena heredada para definir su comportamiento
 class EscenaBasica(le.Escena):
+    """Escena con lógica."""
+    def logica_ini(self):
+        """Lógica inicial de la escena."""
+        # Agregamos una textura
+        self.agregar_textura(recursos%"Iori_0.png")
+        # Creamos el objeto con dicha textura
+        obj = le.ObjetoImagenAvanzado(self.texturas[0], [100,50])
+        # Le definimos un grupo
+        obj.tipo = 0
+        # Lo agrandamos un poco
+        obj.escala = le.Vec2((3,3))
+        # Agregamos el objeto
+        self.agregar_objeto(obj)
+
     def logica(self, tiempo):
+        """Lógica continua de la escena.
+        tiempo = tiempo transcurrido desde el último fotograma"""
         # Eventos del teclado
         teclado = self.eventos.entrada_teclado
         if teclado[K_ESCAPE][0]:
@@ -36,8 +55,8 @@ nucleo.mapa_eve.definir_otro(QUIT)
 nucleo.mapa_eve.definir_teclas(K_ESCAPE, K_SPACE)
 
 # Se limpian referencias sin uso
-escena = None
-camara = None
+del escena# = None
+del camara# = None
 
 # Se ejecuta el bucle principal
 nucleo.ejecutar()
