@@ -5,29 +5,31 @@
 # 	    (**) Reimplementar la renderizacion, a través de OpenGL
 #              (faltan detalles como mejorar el objeto shader, fbo, e
 #               implementar transformaciones correctas de la cámara y su
-#               uso de shaders y fbos, simplificar uso de éstos)
+#               uso de shaders y fbos)
 #       (*)  Incluir ejemplos
-#              (la arquitectura ya está terminada, mejorar objetos antes de
-#               implementar sus ejemplos correspondientes)
+#              (la arquitectura ya está terminada, mejorar objetos mientras se
+#               implementan sus ejemplos correspondientes)
 #       ()   Implementar física
 #              (tal vez lo más díficil, utilizar PyBox2D)
 # 	Ojetos Imagen:
 # 		(**) Calcular la renderizacion, con diferentes cámaras y tamaños
 #              (organizar mejor las transformaciones de la cámara - escala)
-# 		(**) Usar shaders
-#              (crear métodos para nunca tener que importar OpenGL.GL.shaders)
+# 		(***)Usar shaders
+#              (por ahora parecen estar contemplados la mayoría de métodos
+#               de utilización básicos)
 # 		(***)ObjetoAnimado y ObjetoImagenAvanzado herederos de la misma clase
+#              (ahora es más fácil actualizar funciones comunes a ambos)
 # 	Cámaras:
-#       ()   Obligar posterior creación de cámaras para la escena
-#              (OpenGL borra las texturas de los fbos si se crea la cámara y
-#               el fbo antes de cambiar la escena y reiniciar el contexto)
+#       (***)Obligar posterior creación de cámaras para la escena
+#              (ya es obligatorio crearlas)
 # 		(*)  Posición y tamaño
-#              (mejorar transformaciones, ¿posición en el centro o esquina?)
+#              (mejorar transformaciones, la posición a partir del centro
+#               parece más intuitiva y el acercamiento sobre el centro)
 # 		(*)  Zoom
 #              (aparentemente fácil con Scalef() de OpenGL)
-# 		(**) Shaders (FBO)
-#              (obligar creación, crear métodos para nunca tener que importar
-#               OpenGL.GL.framebufferobjects, actualizar fbos a varias texturas)
+# 		(***)FBOs
+#              (ya es obligatorio crearlos, la mayoría de métodos de uso básico
+#               parecen estar contemplados)
 # 	Caja de Recursos:
 # 		()   Objeto separado de la escena
 #              (no iniciado)
