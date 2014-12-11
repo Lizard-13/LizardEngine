@@ -55,5 +55,38 @@ class Shader():
 				glDeleteShader(vshader)
 				glDeleteProgram(self.programa)
 
-	def use(self):
+	def usar(self):
 		glUseProgram(self.programa)
+	
+	def no_usar(self):
+		glUseProgram(0)
+	
+	def ubicacion(self, uniforme):
+		"""Retorna la ubicación de la vaiable uniforme en el programa.
+		uniforme = texto del nombre de la variable"""
+		return glGetUniformLocation(self.programa, uniforme)
+	
+	def parametrizar_textura(self, ubicacion, textura):
+		"""Parametriza el shader con una textura (o un int).
+		ubicacion = ubicación de la variable a parametrizar
+		textura = posición de la textura a través de glActiveTexture()"""
+		glUniform1i(ubicacion, textura)
+	
+	def parametrizar_float(self, ubicacion, valor):
+		"""Parametriza el shader con un float
+		ubicacion = ubicación de la variable a parametrizar
+		valor = valor del flotante"""
+		glUniform1f(ubicacion, valor)
+	
+	def parametrizar_vec2(self, ubicacion, x, y):
+		"""Parametriza el shader con un vec2
+		ubicacion = ubicación de la variable a parametrizar
+		x, y = valores del vector 2D"""
+		glUniform3f(ubicacion, x, y)
+	
+	def parametrizar_vec3(self, ubicacion, x, y, z):
+		"""Parametriza el shader con un vec3
+		ubicacion = ubicación de la variable a parametrizar
+		x, y, z = valores del vector 3D"""
+		glUniform3f(ubicacion, x, y, z)
+	
