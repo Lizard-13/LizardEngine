@@ -6,7 +6,7 @@
 from __ejemplo__ import Ejemplo
 
 
-# Lista con los recursos de cada ejemplo
+# Lista con los recursos iniciales de cada ejemplo
 recursos_ejemplos = [("ej_basico.py", "Recursos/EjBasico/EjBasico.png"),
                      ("ej_camara.py", "Recursos/EjCamara/EjCamara.png"),
                      ("ej_shader.py", "Recursos/EjShader/EjShader.png"),
