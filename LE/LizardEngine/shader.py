@@ -3,63 +3,82 @@
 # creado: 11/10/2014 (dd/mm/aa)
 
 #Globales
-import pygame
-from OpenGL.GL import *
-from OpenGL.GL.shaders import *
+from OpenGL.GL import (glCreateShader, GL_VERTEX_SHADER, GL_FRAGMENT_SHADER,
+					   glCreateProgram, glAttachShader, glLinkProgram,
+					   glDetachShader, glDeleteShader, glGetProgramiv,
+					   GL_LINK_STATUS, glShaderSource, glCompileShader,
+					   glGetShaderiv, GL_COMPILE_STATUS, glGetShaderInfoLog,
+					   glUseProgram, glGetUniformLocation, glUniform1i,
+					   glUniform1f, glUniform2f, glUniform3f, glDeleteProgram)
 
 
 class Shader():
-	def __init__(self,vshader_source,fshader_source):
-		self.errores = False
-		vshader_file = open(vshader_source,"r")
-		fshader_file = open(fshader_source,"r")
-		vshader_data = vshader_file.read()
-		fshader_data = fshader_file.read()
-
-		vshader = glCreateShader(GL_VERTEX_SHADER)
-		fshader = glCreateShader(GL_FRAGMENT_SHADER)
-		self.vshader = vshader
-		self.fshader = fshader
-		self.programa = None
-
-		glShaderSource(vshader, [vshader_data])
-		glShaderSource(fshader, [fshader_data])
-		vshader_file.close()
-		fshader_file.close()
+	def __init__(self, archivo_vert, archivo_frag,
+				 nombre_vert="Vertex Shader", nombre_frag="Fragment Shader"):
+		print("Shader creado")
 		
-		glCompileShader(vshader)
-		v_resultado = glGetShaderiv(vshader,GL_COMPILE_STATUS)
-		if v_resultado != 1:
-			print "Error al compilar el VShader, registro:\n"+glGetShaderInfoLog(vshader)
-		glCompileShader(fshader)
-		f_resultado = glGetShaderiv(fshader,GL_COMPILE_STATUS)
-		if f_resultado != 1:
-			print "Error al compilar el FShader, registro:\n"+glGetShaderInfoLog(fshader)
+		# Creación de shaders y programa
+		self.vshader = glCreateShader(GL_VERTEX_SHADER)
+		self.fshader = glCreateShader(GL_FRAGMENT_SHADER)
+		self.programa = glCreateProgram()
 		
-		if (v_resultado != 1) or (f_resultado != 1): # error en la compilación
-			self.errores = True
-			glDeleteShader(fshader)
-			glDeleteShader(vshader)
+		# Cargamos los datos de los archivos en los shaders
+		self.cargar_datos(self.vshader, archivo_vert)
+		self.cargar_datos(self.fshader, archivo_frag)
+		# Compilamos los shaders
+		resultado_vert = self.compilar(self.vshader, nombre_vert)
+		resultado_frag = self.compilar(self.fshader, nombre_frag)
+		
+		# Error en la compilación
+		if (resultado_vert != 1) or (resultado_frag != 1):
+			self.destruir()
+		# Sin errores hasta ahora
 		else:
-			self.programa = glCreateProgram()
-			glAttachShader(self.programa, vshader)
-			glAttachShader(self.programa, fshader)
-			try:
-				glLinkProgram(self.programa)
-				glDetachShader(self.programa, vshader)
-				glDetachShader(self.programa, fshader)
-			except:
-				print 'Error linking program'
-				self.errores = True
-				glDeleteShader(fshader)
-				glDeleteShader(vshader)
-				glDeleteProgram(self.programa)
+			# Enlazamos los shaders al programa
+			glAttachShader(self.programa, self.vshader)
+			glAttachShader(self.programa, self.fshader)
+			# Enlazamos el programa
+			glLinkProgram(self.programa)
+			# Desenlazaos y eliminamos los shaders
+			glDetachShader(self.programa, self.vshader)
+			glDetachShader(self.programa, self.fshader)
+			glDeleteShader(self.vshader)
+			glDeleteShader(self.fshader)
+			# Errores durante el enlace
+			resultado_progr = glGetProgramiv(self.programa, GL_LINK_STATUS)
+			if resultado_progr != 1:
+				self.destruir()
+
+	def cargar_datos(self, shader, archivo_shader):
+		"""Carga el archivo y devuelve los datos del shader.
+		shader = shader a cargar los datos
+		archivo_shader = archivo con los datos fuente para el shader"""
+		# Abrimos el archivo y obtenemos los datos
+		archivo = open(archivo_shader,"r")
+		data = archivo.read()
+		# Cerramos el archivo
+		archivo.close()
+		# Asignamos los datos al shader
+		glShaderSource(shader, [data])
+	
+	def compilar(self, shader, nombre):
+		"""Compila el shader e informa errores.
+		shader = shader a compilar
+		nombre = nombre del shader en el informe de errores"""
+		# Compilamos el shader
+		glCompileShader(shader)
+		# Obtenemos su estado
+		resultado = glGetShaderiv(shader,GL_COMPILE_STATUS)
+		# Si el estado es != 1, hubo errores durante la compilación
+		if resultado != 1:
+			print "Error al compilar {n}, registro:\n".format(n=nombre) + \
+					glGetShaderInfoLog(shader)
+		# Devolvemos el estado
+		return resultado
 
 	def usar(self):
+		"""Utilizar este programa."""
 		glUseProgram(self.programa)
-	
-	def no_usar(self):
-		glUseProgram(0)
 	
 	def ubicacion(self, uniforme):
 		"""Retorna la ubicación de la vaiable uniforme en el programa.
@@ -72,7 +91,7 @@ class Shader():
 		textura = posición de la textura a través de glActiveTexture()"""
 		glUniform1i(ubicacion, textura)
 	
-	def parametrizar_float(self, ubicacion, valor):
+	def parametrizar_decimal(self, ubicacion, valor):
 		"""Parametriza el shader con un float
 		ubicacion = ubicación de la variable a parametrizar
 		valor = valor del flotante"""
@@ -82,7 +101,7 @@ class Shader():
 		"""Parametriza el shader con un vec2
 		ubicacion = ubicación de la variable a parametrizar
 		x, y = valores del vector 2D"""
-		glUniform3f(ubicacion, x, y)
+		glUniform2f(ubicacion, x, y)
 	
 	def parametrizar_vec3(self, ubicacion, x, y, z):
 		"""Parametriza el shader con un vec3
@@ -90,3 +109,17 @@ class Shader():
 		x, y, z = valores del vector 3D"""
 		glUniform3f(ubicacion, x, y, z)
 	
+	def destruir(self):
+		"""Elimina los shaders y el programa, y destruye referencias."""
+		glDeleteShader(self.fshader)
+		glDeleteShader(self.vshader)
+		glDeleteProgram(self.programa)
+	
+	def __del__(self):
+		print("Shader eliminado")
+	
+	
+def no_usar_shaders():
+	"""Deja de utilizar cualquier shader."""
+	glUseProgram(0)
+		

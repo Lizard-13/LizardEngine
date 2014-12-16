@@ -30,6 +30,6 @@ from objeto_base import ObjetoImagen
 from objeto_base import ObjetoImagenAvanzado
 from objeto_animado import ObjetoAnimado
 from camara import Camara
-from shader import Shader
-from framebuffer import Framebuffer
+from shader import Shader, no_usar_shaders
+from framebuffer import Framebuffer, no_usar_fbos
 from vec2 import Vec2

@@ -4,10 +4,15 @@
 
 # Globales
 import pygame
-from OpenGL.GL import *
+from OpenGL.GL import (glClear, GL_COLOR_BUFFER_BIT, glLoadIdentity, glScalef,
+                       glTranslatef, glRotatef, glActiveTexture, GL_TEXTURE0,
+                       glBindTexture, GL_TEXTURE_2D, glBegin, GL_QUADS,
+                       glTexCoord2f, glVertex3f, glEnd)
 
 # Locales
 from .vec2 import Vec2
+from .framebuffer import no_usar_fbos
+from .shader import no_usar_shaders
 
 
 class Camara(object):
@@ -39,7 +44,7 @@ class Camara(object):
     def iniciar_renderizado(self):
         """Acciones posteriores al renderizado de objetos."""
         self.fbos[0].usar()
-        glClearColor(0., 0., 0., 0.)#0.) para fondo transparente
+        #glClearColor(*self.capa.escena.color)#0.) para fondo transparente
         glClear(GL_COLOR_BUFFER_BIT) #| GL_DEPTH_BUFFER_BIT)
         # Transformación de la cámara
         glLoadIdentity()
@@ -68,6 +73,56 @@ class Camara(object):
         self.shader.no_usar if self.shader else None
         # Pequeño render sin usar el programa (textura del framebuffer)
         #self.renderizar_cuad(0., 0., 160., 120.)
+        
+    def renderizar_por_pasos(self, prueba, *pasos):
+        """Automatiza el renderizado, a través de pasos explícitos. La idea es
+        dar n pasos de renderizado a fbos, y un último paso a la pantalla.
+        prueba = ¿Renderizar framebuffers?
+        pasos = (textura, shader, fbo_previo, fbo), donde:
+        textura = posición de la textura donde renderizar el fbo previo
+        shader = shader a utilizar durante la renderización al fbo
+        fbo_previo = fbo que contiene la textura a renderizar
+        fbo = framebuffer sobre el cual renderizar"""
+        for paso in pasos:
+            tex = paso[0]
+            shader = paso[1]
+            fbo_prev = paso[2]
+            fbo = paso[3]
+            # Si hay que renderizar a un framebuffer
+            if fbo:
+                # Usamos el nuevo framebuffer
+                fbo.usar()
+                glClear(GL_COLOR_BUFFER_BIT)
+                # Activamos la textura
+                glActiveTexture(GL_TEXTURE0 + tex)
+                # Renderizamos el resultado del framebuffer anterior
+                glBindTexture(GL_TEXTURE_2D, fbo_prev.textura)
+                # Usar shaders si corresponde
+                if shader:
+                    shader.usar()
+                # Al renderizar a un fbo, lo hacemos en tamaño completo
+                self.renderizar_cuad(0., 0., self.ventana[0], self.ventana[1])
+            # Si hay que renderizar a la pantalla
+            else:
+                # Dejamos de usar los framebuffers
+                no_usar_fbos()
+                glClear(GL_COLOR_BUFFER_BIT)
+                # Activamos la textura
+                glActiveTexture(GL_TEXTURE0 + tex)
+                # Renderizamos el resultado del framebuffer anterior
+                glBindTexture(GL_TEXTURE_2D, fbo_prev.textura)
+                # Usar shaders si corresponde
+                if shader:
+                    shader.usar()
+                # Tamaño completo a tamaño de zona de renderizado de la cámara
+                inicio_x = self.zona[0]*self.ventana[0]
+                inicio_y = self.zona[1]*self.ventana[1]
+                fin_x = self.zona[2]*self.ventana[0]
+                fin_y = self.zona[3]*self.ventana[1]
+                # Renderizamos a la pantalla
+                self.renderizar_cuad(inicio_x, inicio_y, fin_x, fin_y)
+                # Terminamos de usar los shaders
+                no_usar_shaders()
 
     def renderizar_cuad(self, x, y, ancho, alto):
         """Renderiza un cuadrado, se ingresan coordenadas para
@@ -75,12 +130,16 @@ class Camara(object):
         x, y = posición (superior izquierda) del cuadrado
         ancho, alto = tamaño del cuadrado"""
         glBegin(GL_QUADS)
+        # Arriba-Izquierda
         glTexCoord2f(0.0, 1.0)
         glVertex3f(x, y, 0.0)
+        # Abajo-Izquirda
         glTexCoord2f(0.0, 0.0)
         glVertex3f(x, alto, 0.0)
+        # Abajo-Derecha
         glTexCoord2f(1.0, 0.0)
         glVertex3f(ancho, alto, 0.0)
+        # Arriba-Derecha
         glTexCoord2f(1.0, 1.0)
         glVertex3f(ancho, y, 0.0)
         glEnd()

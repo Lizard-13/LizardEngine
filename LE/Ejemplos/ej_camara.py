@@ -2,11 +2,13 @@
 # -*- coding: utf-8 -*-
 # creado: 4/12/2014 (dd/mm/aa)
 
+# Locales
 import LE.LizardEngine as le
+
+#Globales
 from pygame.locals import QUIT, K_ESCAPE, K_SPACE
-from OpenGL.GL import (glClearColor, glActiveTexture, glBindTexture,
-                       glClear, GL_COLOR_BUFFER_BIT, GL_TEXTURE_2D,
-                       GL_TEXTURE0, GL_TEXTURE1)
+from OpenGL.GL import (glActiveTexture, glBindTexture, GL_TEXTURE_2D,
+                       GL_TEXTURE0)
 
 
 #Carpeta relativa de recursos, archivos en formato recursos%"archivo"
@@ -35,45 +37,26 @@ class CamaraBlur(le.Camara):
         self.definir_shaders(self.shader_h, self.shader_v)
     
     def definir_shaders(self, shader_h, shader_v):
-        """Inicia los parámetros constantes de los shaders."""
+        """Inicia los parámetros constantes de los shaders.
+        shader_h = shader del blur horizontal
+        shader_v = shader del blur vertical"""
         # Variables del blur horizontal
         shader_h.usar()
         shader_h.parametrizar_textura(shader_h.ubicacion("textura"), 0)
-        shader_h.parametrizar_float(shader_h.ubicacion("blurH"), 1.0/512.0)
+        shader_h.parametrizar_decimal(shader_h.ubicacion("blurH"), 1.0/512.0)
         # Variables del blur vertical
         shader_v.usar()
         shader_v.parametrizar_textura(shader_v.ubicacion("textura"), 1)
-        shader_v.parametrizar_float(shader_v.ubicacion("blurV"), 1.0/512.0)
+        shader_v.parametrizar_decimal(shader_v.ubicacion("blurV"), 1.0/512.0)
         # Finalizar
-        shader_v.no_usar()
+        le.no_usar_shaders()
     
     def finalizar_renderizado(self):
         """Renderiza la textura final, obtenida en el framebuffer 0."""
-        # Desactivar el primer framebuffer y activar el segundo
-        self.fbos[1].usar()
-        glClearColor(0., 0., 0., 0.)
-        glClear(GL_COLOR_BUFFER_BIT)
-        # Activar la primer textura
-        glActiveTexture(GL_TEXTURE0)
-        glBindTexture(GL_TEXTURE_2D, self.fbos[0].textura)
-        # Renderiza la imagen principal con el shader de blur horizontal
-        self.shader_h.usar()
-        self.renderizar_cuad(0., 0., self.ventana[0], self.ventana[1])
-        # Desactivar el segundo framebuffer
-        self.fbos[1].no_usar()
-        glClearColor(0., 0., 0., 0.)
-        glClear(GL_COLOR_BUFFER_BIT)
-        # Activar la segunda textura con el shader de blur vertical
-        glActiveTexture(GL_TEXTURE1)
-        glBindTexture(GL_TEXTURE_2D, self.fbos[1].textura)
-        # Renderiza a la pantalla utilizando blur vertical
-        self.shader_v.usar()
-        inicio_x = self.zona[0]*self.ventana[0]
-        inicio_y = self.zona[1]*self.ventana[1]
-        fin_x = self.zona[2]*self.ventana[0]
-        fin_y = self.zona[3]*self.ventana[1]
-        self.renderizar_cuad(inicio_x, inicio_y, fin_x, fin_y)
-        self.shader_v.no_usar()
+        self.renderizar_por_pasos(True,
+                            (0, self.shader_h, self.fbos[0], self.fbos[1]),
+                            (1, self.shader_v, self.fbos[1], None))
+        
         # Pequeño render lateral sin usar el programa (textura del framebuffer)
         glActiveTexture(GL_TEXTURE0)
         self.renderizar_cuad(self.ventana[0]-160, 0., self.ventana[0], 120.)
@@ -116,7 +99,7 @@ nucleo.cambiar_escena(escena)
 # Se crea una cámara
 camara = CamaraBlur([0,0], escena.tam)
 # Se establece la camara
-escena.capa_base.camaras = [camara]
+escena.capa_base.agregar_camara(camara)
 
 # Se definen los eventos disponibles
 nucleo.mapa_eve.definir_otro(QUIT)

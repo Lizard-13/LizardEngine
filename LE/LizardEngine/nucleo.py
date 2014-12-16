@@ -97,7 +97,7 @@ class Nucleo():
 		# Darle los datos del núcleo a la ventana
 		self.escena.nucleo = self
 		self.escena.eventos = self.mapa_eve
-		self.escena.cambiar_color(*escena.color)
+		glClearColor(*escena.color)
 		# Ejecutar la lógica inicial de la escena
 		print("Iniciando escena...")
 		self.escena.logica_ini()

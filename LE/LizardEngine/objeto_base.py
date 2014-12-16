@@ -43,7 +43,7 @@ class ObjetoBase():
         self.capa = None
 
     def __del__(self):
-        print("Objeto Base destruido")
+        print("Objeto Base eliminado")
 
 
 class ObjetoImagen(ObjetoBase):

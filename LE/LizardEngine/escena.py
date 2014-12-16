@@ -15,7 +15,7 @@ class Escena():
 	"""La escena contiene los objetos, las capas y texturas, ordena la
 	actualización de los objetos y capas. Sólo hay una escena activa
 	a la vez."""
-	def __init__(self, nombre, color=(0.4, 0.4, 0.4),
+	def __init__(self, nombre, color=(0.1, 0.1, 0.1, 0.0),
 					   tam=(800, 600), pant_compl=False):
 		"""Inicializa la escena.
 		nombre = nombre de la escena (título de la ventana por defecto)
@@ -167,12 +167,6 @@ class Escena():
 			self.nucleo.cargador.cargar_escena(archivo, self)
 		except IOError:
 			raise Exception("No se encontró {archivo}".format(archivo=archivo))
-
-	def cambiar_color(self, r, g, b):
-		"""Cambia el color del fondo (de limpiado) de la escena.
-		r,g,b = canales rojo, verde y azul del color respectivamente"""
-		self.color = (r,g,b)
-		glClearColor(r,g,b,1.0)
 	
 	def destruir(self):
 		# Limpiar las texturas

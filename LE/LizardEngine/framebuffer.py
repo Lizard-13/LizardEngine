@@ -45,13 +45,14 @@ class Framebuffer(object):
         """Utiliza el framebuffer."""
         glBindFramebuffer(GL_FRAMEBUFFER, self.framebuffer)
         
-    def no_usar(self):
-        """Dejar de utilizar el framebuffer."""
-        glBindFramebuffer(GL_FRAMEBUFFER, 0)
-        
     def __del__(self):
         """Elimina los recursos usados por el framebuffer."""
         print("FBO eliminado")
         glDeleteTextures(self.textura)
         glDeleteRenderbuffers(1, [self.renderbuffer])
         glDeleteFramebuffers(1, [self.framebuffer])
+
+
+def no_usar_fbos():
+    """Dejar de utilizar cualquier framebuffer."""
+    glBindFramebuffer(GL_FRAMEBUFFER, 0)
