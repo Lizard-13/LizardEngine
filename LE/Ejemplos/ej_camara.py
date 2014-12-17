@@ -3,9 +3,10 @@
 # creado: 4/12/2014 (dd/mm/aa)
 
 # Locales
-import LE.LizardEngine as le
+import LizardEngine as le
 
 #Globales
+import pygame
 from pygame.locals import QUIT, K_ESCAPE, K_SPACE
 from OpenGL.GL import (glActiveTexture, glBindTexture, GL_TEXTURE_2D,
                        GL_TEXTURE0)
@@ -64,6 +65,7 @@ class CamaraBlur(le.Camara):
         self.renderizar_cuad(self.ventana[0]-160, 130., self.ventana[0], 250.)
 
 
+i=0
 # Una escena heredada para definir su comportamiento
 class EscenaBasica(le.Escena):
     """Escena con lógica."""
@@ -71,15 +73,20 @@ class EscenaBasica(le.Escena):
         # Agregamos una textura
         self.agregar_textura(recursos_com%"Iori_0.png")
         # Creamos el objeto con dicha textura
-        obj = le.ObjetoImagenAvanzado(self.texturas[0], [100,50])
-        # Le definimos un grupo
-        obj.tipo = 0
-        # Lo agrandamos un poco
-        obj.escala = le.Vec2((3,3))
-        # Agregamos el objeto
-        self.agregar_objeto(obj)
+        for i in range(1000):
+            n = int(i/100.)
+            obj = le.ObjetoImagenAvanzado("Iori"+str(n), self.texturas[0],
+                                          [5*(i%100), 50*n])
+            # Lo agrandamos un poco
+            obj.escala = le.Vec2((2,2))
+            # Agregamos el objeto
+            self.agregar_objeto(obj)
         
     def logica(self, tiempo):
+        global i
+        i += 1
+        if i%25 == 0:
+            pygame.display.set_caption(self.nombre+" FPS: "+str(1/tiempo))
         # Eventos del teclado
         teclado = self.eventos.entrada_teclado
         if teclado[K_ESCAPE][0]:
@@ -89,6 +96,9 @@ class EscenaBasica(le.Escena):
         # Eventos varios
         if self.eventos.entrada_otros[QUIT]:
             self.nucleo.salir()
+        
+        for obj in self.objetos["Iori1"]:
+            pass
 
 # Se crea el núcleo
 nucleo = le.Nucleo()
@@ -99,7 +109,7 @@ nucleo.cambiar_escena(escena)
 # Se crea una cámara
 camara = CamaraBlur([0,0], escena.tam)
 # Se establece la camara
-escena.capa_base.agregar_camara(camara)
+escena.capas["Base"].agregar_camara(camara)
 
 # Se definen los eventos disponibles
 nucleo.mapa_eve.definir_otro(QUIT)

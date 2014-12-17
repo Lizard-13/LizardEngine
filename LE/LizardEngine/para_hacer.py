@@ -6,6 +6,14 @@
 #              (faltan detalles como mejorar el objeto shader, FBO, e
 #               implementar transformaciones correctas de la cámara y su
 #               uso de dichos objetos gráficos)
+############### Observando los impactos en el rendimiento de 1000 imágenes no
+############### animadas, creo que es correcto replantear la idea cargar la
+############### textura de cada objeto fotograma a fotograma, la solución más
+############### factible sería ubicar los objetos en grupos de renderización,
+############### en estos grupos, ordenarlos según su textura y posiblemente
+############### shaders, y renderizar todo el grupo a la vez, también he de
+############### tener en cuenta el uso de funciones actualizadas de OpenGL,
+############### como los VAO y VBO.
 #       (*)  Incluir ejemplos
 #              (la arquitectura ya está terminada, mejorar objetos mientras se
 #               implementan sus ejemplos correspondientes)
@@ -38,6 +46,8 @@
 # 		()   Implementar sonidos
 #              (no iniciado, ¿PyOpenAL llevado a 2D o Pygame?)
 #       ()   ¿Shaders y FBOs en la caja de recursos?
+#              (Sólo shaders, ubicar fbos no tiene sentido ya que los fbos y
+#               sus texturas son usados en particular por cada cámara.
 #   Ideas para nuevos objetos:
 #       ()   Objeto Mosaico
 #              (posición de textura variable, podria heredar de ObjetoImagen,

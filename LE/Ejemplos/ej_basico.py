@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 # creado: 4/12/2014 (dd/mm/aa)
 
-import LE.LizardEngine as le
+import LizardEngine as le
 from pygame.locals import QUIT, K_ESCAPE, K_SPACE
 
 
@@ -18,7 +18,7 @@ class EscenaBasica(le.Escena):
         # Agregamos una textura
         self.agregar_textura(recursos_com%"Iori_0.png")
         # Creamos el objeto con dicha textura
-        obj = le.ObjetoImagenAvanzado(self.texturas[0], [100,50])
+        obj = le.ObjetoImagenAvanzado("Iori", self.texturas[0], [100,50])
         # Le definimos un grupo
         obj.tipo = 0
         # Lo agrandamos un poco
@@ -49,7 +49,7 @@ nucleo.cambiar_escena(escena)
 camara = le.Camara(tam=escena.tam)
 camara.fbos = [le.Framebuffer(escena.tam)]
 # Se establece la camara
-escena.capa_base.camaras = [camara]
+escena.capas["Base"].camaras = [camara]
 
 # Se definen los eventos disponibles
 nucleo.mapa_eve.definir_otro(QUIT)

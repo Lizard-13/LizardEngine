@@ -13,13 +13,15 @@ from vec2 import Vec2
 class ObjetoBase():
     """Objeto básico con profundidad (orden de renderizado), control de
     actividad y una capa."""
-    def __init__(self, z=0):
+    def __init__(self, nombre, z=0):
         """Inicializa el objeto.
         z = valor Z (orden de renderizado) del objeto"""
-        print("Objeto Base creado")
+        print("{nombre} creado".format(nombre=nombre))
+        self.nombre = nombre
         self.z = z
         self.activo = True
         self.capa = None
+        
     def actualizar(self, tiempo):
         """Actualización en cada fotograma.
         tiempo = tiempo transcurrido desde el último fotograma"""
@@ -27,6 +29,7 @@ class ObjetoBase():
             self.accion_activa(tiempo)
         else:
             self.accion_pasiva(tiempo)
+            
     def accion_activa(self, tiempo):
         """Funciones de alto consumo cuando el objeto entra en juego.
         tiempo = tiempo transcurrido desde el último fotograma"""
@@ -43,15 +46,15 @@ class ObjetoBase():
         self.capa = None
 
     def __del__(self):
-        print("Objeto Base eliminado")
+        print("{nombre} eliminado".format(nombre=self.nombre))
 
 
 class ObjetoImagen(ObjetoBase):
     """Objeto de renderizado incompleto, para heredar y especializar.
     pos = posición (respecto al punto origen) del objeto
     z = valor Z (orden de renderizado) del objeto"""
-    def __init__(self, pos=(0,0), z=0):
-        ObjetoBase.__init__(self, z)
+    def __init__(self, nombre, pos=(0,0), z=0):
+        ObjetoBase.__init__(self, nombre, z)
         self.pos = Vec2(pos)
         self.angulo = 0.0
         self.escala = Vec2([1.0,1.0])
@@ -88,7 +91,7 @@ class ObjetoImagen(ObjetoBase):
         glPopMatrix()
 
         # Renderizado de prueba (toma en cuenta las transformaciones del objeto)
-        self.renderizado_de_prueba()
+        #self.renderizado_de_prueba()
 
     def agregar_programa(self, programa):
         """Establecer un nuevo programa como programa del objeto."""
@@ -152,8 +155,8 @@ class ObjetoImagenAvanzado(ObjetoImagen):
     """Objeto de renderizado básico
     sin animaciones, puede tener
     varias texturas para shaders"""
-    def __init__(self, textura, pos=(0,0), z=0):
-        ObjetoImagen.__init__(self, pos, z)
+    def __init__(self, nombre, textura, pos=(0,0), z=0):
+        ObjetoImagen.__init__(self, nombre, pos, z)
         self.texturas = [textura]
 
         glActiveTexture(GL_TEXTURE0)

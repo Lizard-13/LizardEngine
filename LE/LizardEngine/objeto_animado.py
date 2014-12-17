@@ -12,11 +12,11 @@ from vec2 import Vec2
 
 class ObjetoAnimado(ObjetoImagen):
 	"""Objeto de renderizado avanzado, con multiples animaciones."""
-	def __init__(self, pos=(0,0), z=0):
+	def __init__(self, nombre, pos=(0,0), z=0):
 		"""Inicializa el objeto.
 		pos = posición (respecto al punto origen del fotograma) del objeto
 		z = valor Z (orden de renderizado) del objeto"""
-		ObjetoImagen.__init__(self, pos, z)
+		ObjetoImagen.__init__(self, nombre, pos, z)
 		self.anims = []
 		self.anim_actual = None
 
@@ -53,9 +53,6 @@ class ObjetoAnimado(ObjetoImagen):
 		"""Agrega una animación al objeto.
 		anim = animación a agregar"""
 		self.anims.append(anim)
-	
-	def __del__(self):
-		print("Objeto Animado eliminado")
 
 
 class Animacion():
