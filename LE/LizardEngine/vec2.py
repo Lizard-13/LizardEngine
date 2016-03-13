@@ -43,9 +43,9 @@ class Vec2():
 	
 	def modulo(self):
 		"""Retorna el módulo (largo/norma) del vector."""
-		# En base a timeit(), velocidad: n*n > **0.5 > sqrt() 
+		# En base a timeit(), velocidad: **0.5 > sqrt() 
 		n = (self.x**2 + self.y**2)
-		return n*n
+		return n**0.5
 	
 	def lista(self):
 		"""Retorna una lista que representa el vector."""
